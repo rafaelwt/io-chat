@@ -7,7 +7,7 @@ var io = require('socket.io')(server, { wsEngine: 'ws' }).listen(server); //wind
 users = [];
 connections = [];
 
-server.listen(process.env.PORT || 8080 );
+server.listen(process.env.PORT || 3000 );
 console.log('Server running ..');
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
@@ -15,12 +15,12 @@ app.get('/',function(req,res){
 
 io.on('connection',function(socket){
     connections.push(socket);
-    console.log('Connected: %s socktes connected',connections.length);
+    console.log('User Connected: %s socktes connected',connections.length);
      // disconnect
     socket.on('disconnect',function(data){
        
     connections.splice(connections.indexOf(socket),1);
-    console.log('Disconnected: %s sockets connected',connections.length);
+    console.log('User Disconnected: %s sockets connected',connections.length);
     });
 
     //send message
