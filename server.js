@@ -1,14 +1,15 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-
+var port = process.env.PORT || 3000;
 //var io = require('socket.io').listen(server);  //linux
-var io = require('socket.io')(server, { wsEngine: 'ws' }).listen(server); //windows
+var io = require('socket.io').listen(server, { wsEngine: 'ws' }); //windows
 users = [];
 connections = [];
 
-server.listen(process.env.PORT || 3000 );
-console.log('Server running ..');
+server.listen(port, function () {
+    console.log('Server listening at port %d', port);
+  });
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
 });
