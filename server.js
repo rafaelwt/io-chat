@@ -19,14 +19,37 @@ io.on('connection',function(socket){
     console.log('User Connected: %s socktes connected',connections.length);
      // disconnect
     socket.on('disconnect',function(data){
-       
+
+   // if (socket.username) return ;
+    users.splice(users.indexOf(socket.username),1);
+    updateUsernames();
     connections.splice(connections.indexOf(socket),1);
     console.log('User Disconnected: %s sockets connected',connections.length);
     });
 
     //send message
     socket.on('send message',function(data){
-        io.emit('send message',{msg: data});
+        
+        io.emit('get message',{user: socket.username,msg: data});
     });
+
+
+    //new  user
+    socket.on('new user',function(data,callback){
+        callback(true);
+        socket.username = data
+        users.push(socket.username);
+        console.log('server','new user',data);
+        updateUsernames();
+      
+
+    });
+    
+    function updateUsernames(){
+        io.emit('get user',users);
+    }
+
+
+
     
 });
